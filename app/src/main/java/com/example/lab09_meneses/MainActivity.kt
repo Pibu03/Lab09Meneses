@@ -85,8 +85,11 @@ fun BarraInferior(navController: NavHostController) {
         NavigationBarItem(
             icon = { Icon(Icons.Outlined.Favorite, contentDescription = "Detalles") },
             label = { Text("Detalles") },
-            selected = navController.currentDestination?.route == "detalle",
-            onClick = { navController.navigate("detalle") }
+            selected = navController.currentDestination?.route?.startsWith("detalle") == true,
+            onClick = {
+                // Navega a un país específico como ejemplo, aquí 'Peru'
+                navController.navigate("detalle/India")
+            }
         )
     }
 }
