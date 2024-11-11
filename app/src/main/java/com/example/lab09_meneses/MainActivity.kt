@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -87,17 +88,24 @@ fun BarraInferior(navController: NavHostController) {
             label = { Text("Detalles") },
             selected = navController.currentDestination?.route?.startsWith("detalle") == true,
             onClick = {
-                // Navega a un país específico como ejemplo, aquí 'Peru'
-                navController.navigate("detalle/India")
+                navController.navigate("detalle/Peru")
             }
+        )
+        NavigationBarItem(
+            icon = { Icon(Icons.Outlined.Search, contentDescription = "Buscar País") },
+            label = { Text("Buscar País") },
+            selected = navController.currentDestination?.route == "buscar",
+            onClick = { navController.navigate("buscar") }
         )
     }
 }
 
+
+
 @Composable
 fun Contenido(pv: PaddingValues, navController: NavHostController, viewModel: CountryViewModel) {
     NavHost(navController = navController, startDestination = "inicio") {
-        composable("inicio") { ScreenCountries(viewModel) }
+        composable("inicio") { ScreenCountries(navController, viewModel) }
         composable(
             "detalle/{name}",
             arguments = listOf(navArgument("name") { type = NavType.StringType })
@@ -105,5 +113,6 @@ fun Contenido(pv: PaddingValues, navController: NavHostController, viewModel: Co
             val name = backStackEntry.arguments?.getString("name") ?: ""
             ScreenCountryDetail(viewModel, name)
         }
+        composable("buscar") { ScreenCountrySearch(navController, viewModel) }
     }
 }
